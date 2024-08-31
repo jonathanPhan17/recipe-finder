@@ -1,7 +1,7 @@
 import React from "react";
 import { Heart, HeartPulse, Soup } from "lucide-react";
 
-const FoodCard = () => {
+const RecipeCard = () => {
   return (
     <div className="flex flex-col rounded-md bg-[#ecf7d4] overflow-hidden p-3 relative">
       <a href="#" className="relative h-32">
@@ -42,4 +42,4 @@ const FoodCard = () => {
   );
 };
 
-export default FoodCard;
+export default RecipeCard;

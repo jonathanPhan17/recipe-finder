@@ -1,5 +1,5 @@
 import React from "react";
-import FoodCard from "../components/FoodCard";
+import RecipeCard from "../components/RecipeCard";
 import { Search } from "lucide-react";
 
 const Homepage = () => {
@@ -23,7 +23,10 @@ const Homepage = () => {
           Popular Choices
         </p>
         <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          <FoodCard />
+          <RecipeCard />
+          <RecipeCard />
+          <RecipeCard />
+          <RecipeCard />
         </div>
       </div>
     </div>
