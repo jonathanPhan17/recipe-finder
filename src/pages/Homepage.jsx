@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import RecipeCard from "../components/RecipeCard";
 import { Search } from "lucide-react";
 import { APP_ID, APP_KEY } from "../api";
+import { getRandomColor } from "../lib/utils";
 
 const Homepage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -52,7 +53,7 @@ const Homepage = () => {
         <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {!loading &&
             recipes.map(({ recipe }, index) => (
-              <RecipeCard key={index} recipe={recipe} />
+              <RecipeCard key={index} recipe={recipe} {...getRandomColor()} />
             ))}
 
           {loading &&
