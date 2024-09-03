@@ -19,7 +19,6 @@ const Homepage = () => {
 
       const data = await res.json();
       setRecipes(data.hits);
-      console.log(data.hits)
     } catch (error) {
       console.log(error.message);
     } finally {
@@ -31,10 +30,15 @@ const Homepage = () => {
     fetchRecipes("chicken");
   }, []);
 
+  const handleRecipeSearch = (e) => {
+    e.preventDefault();
+    fetchRecipes(e.target[0].value);
+  }
+
   return (
     <div className="bg-[#faf9fb] p-10 flex-1">
       <div className="max-w-screen-lg mx-auto">
-        <form>
+        <form onSubmit={handleRecipeSearch}>
           <label className="input shadow-md flex items-center gap-2">
             <Search size={24} />
             <input

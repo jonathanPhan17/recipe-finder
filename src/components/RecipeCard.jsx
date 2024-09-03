@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Heart, HeartPulse, Soup } from "lucide-react";
 
 const getTwoValuesFromHealthLabels = (label) => {
@@ -7,6 +7,27 @@ const getTwoValuesFromHealthLabels = (label) => {
 
 const RecipeCard = ({ recipe, bg, badge }) => {
   const healthLabels = getTwoValuesFromHealthLabels(recipe.healthLabels);
+  const [isFavorite, setIsFavorite] = useState(
+    localStorage.getItem("favorites")?.includes(recipe.label)
+  );
+
+  const addRecipeToFavorites = () => {
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    const isRecipeInFavorites = favorites.some(
+      (fav) => fav.label === recipe.label
+    );
+
+    if (isRecipeInFavorites) {
+      favorites = favorites.filter((fav) => fav.label !== recipe.label);
+      setIsFavorite(false);
+    } else {
+      favorites.push(recipe);
+      setIsFavorite(true);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  };
 
   return (
     <div
@@ -17,20 +38,39 @@ const RecipeCard = ({ recipe, bg, badge }) => {
         target="_blank"
         className="relative h-32"
       >
+        <div className="skeleton absolute inset-0" />
         <img
           src={recipe.image}
           alt="recipe img"
-          className="rounded-md w-full h-full object-cover cursor-pointer"
+          className="rounded-md w-full h-full object-cover cursor-pointer opacity-0 transition-opacity duration-500"
+          onLoad={(e) => {
+            e.currentTarget.style.opacity = 1;
+            e.currentTarget.previousElementSibling.style.display = "none";
+          }}
         />
         <div className="absolute bottom-2 left-2 bg-white rounded-full p-1 cursor-pointer flex items-center gap-1 text-sm">
           <Soup size={16} />
           {recipe.yield} Servings
         </div>
-        <div className="absolute top-1 right-2 bg-white rounded-full p-1 cursor-pointer">
-          <Heart
-            size={20}
-            className="hover:fill-red-500 hover:text-red-500 transition-all"
-          />
+        <div
+          className="absolute top-1 right-2 bg-white rounded-full p-1 cursor-pointer"
+          onClick={(e) => {
+            e.preventDefault();
+            addRecipeToFavorites();
+          }}
+        >
+          {!isFavorite && (
+            <Heart
+              size={20}
+              className="hover:fill-red-500 hover:text-red-500 transition-all"
+            />
+          )}
+          {isFavorite && (
+            <Heart
+              size={20}
+              className="fill-red-500 text-red-500 transition-all"
+            />
+          )}
         </div>
       </a>
       <div className="flex mt-1">
